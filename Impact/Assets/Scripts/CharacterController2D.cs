@@ -76,12 +76,12 @@ public class CharacterController2D : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		
-		//if(inputDirection == -1.0f) {
-		//	transform.localRotation = Quaternion.Euler(0, 180, 0);
-		//} else {
-		//	transform.localRotation = Quaternion.Euler(0, 0, 0);
-		//}
+
+		if (inputDirection == -1.0f) {
+			transform.localRotation = Quaternion.Euler(0, 180, 0);
+		} else {
+			transform.localRotation = Quaternion.Euler(0, 0, 0);
+		}
 
 		Jumping();
 		Gravity();
