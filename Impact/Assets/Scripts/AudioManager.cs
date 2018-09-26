@@ -64,6 +64,19 @@ public class AudioManager : MonoBehaviour {
 		s.source.Play();
 	}
 
+	public void PlayWithRandomPitch(string name, float offset) {
+		Sound s = Array.Find(sounds, sound => sound.name == name);
+		if (s == null) {
+			Debug.Log("Tried to play sound with name that doesn't exist");
+			return;
+		}
+
+		//Pitch randomization
+		s.source.pitch = UnityEngine.Random.Range(0.9f + offset, 1.3f + offset);
+
+		s.source.Play();
+	}
+
 	public void PlayWithPitch(string name, float pitch) {
 		Sound s = Array.Find(sounds, sound => sound.name == name);
 		if (s == null) {

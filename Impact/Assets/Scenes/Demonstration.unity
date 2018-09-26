@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -187,7 +188,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.8349056, g: 0.899109, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -202,7 +203,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -231,6 +232,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AssetsPPU: 4
+  m_RefResolutionX: 128
+  m_RefResolutionY: 72
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!4 &539235493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4125359348428176, guid: 685a5966d64c0ff439c6db26c2f25aa0,
@@ -274,6 +294,10 @@ Prefab:
     - target: {fileID: 4125359348428176, guid: 685a5966d64c0ff439c6db26c2f25aa0, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125359348428176, guid: 685a5966d64c0ff439c6db26c2f25aa0, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 28
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 685a5966d64c0ff439c6db26c2f25aa0, type: 2}
@@ -320,7 +344,7 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2981e14a27385d94397440def30a7fa5, type: 2}
   m_IsPrefabAsset: 0
---- !u!1001 &1527338019
+--- !u!1001 &970634960
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -359,9 +383,47 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114315967506135226, guid: 20fd8a4a07d92e1499196581a6170468,
+        type: 2}
+      propertyPath: pbs
+      value: 
+      objectReference: {fileID: 1119466137}
+    - target: {fileID: 50223921465773622, guid: 20fd8a4a07d92e1499196581a6170468,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20fd8a4a07d92e1499196581a6170468, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1119466136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1119466137}
+  m_Layer: 0
+  m_Name: PunchingBagSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1119466137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1119466136}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570177224
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,19 +454,25 @@ MonoBehaviour:
   sounds:
   - name: Jump
     clip: {fileID: 8300000, guid: 35370cb39f7fee1479d8476366111d5a, type: 3}
-    volume: 1
+    volume: 0.2
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Landing
     clip: {fileID: 8300000, guid: 43dd4f5feff719f4896a05e18be80572, type: 3}
-    volume: 1
+    volume: 0.1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: SwordHit
-    clip: {fileID: 8300000, guid: 625f911f8a917a24a98c37b23ff4697d, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: e690506f9abff2743950c0b0f147c29d, type: 3}
+    volume: 0.1
+    pitch: 2
+    loop: 0
+    source: {fileID: 0}
+  - name: EnemyHit
+    clip: {fileID: 8300000, guid: a285b2aad291c8743a7e5f6c157abb0a, type: 3}
+    volume: 0.2
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -415,7 +483,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1570177224}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7776368, y: -0.7977276, z: -0.049121335}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

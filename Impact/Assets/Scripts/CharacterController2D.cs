@@ -13,11 +13,13 @@ public class CharacterController2D : MonoBehaviour {
 	Rigidbody2D rb;
 	BoxCollider2D boxColl;
 	ScaleWithVelocity scale;
+	SwordSwing swordSwing;
+	AudioManager audioManager;
 
 	//Physics variables - We set these
 	private float maxJumpHeight = 3.5f;                 // If this could be in actual unity units somehow, that would be great
 	private float minJumpHeight = 0.5f;                 // If this could be in actual unity units somehow, that would be great
-	private float timeToJumpApex = 0.2f;                // This is in actual seconds
+	private float timeToJumpApex = 0.25f;               // This is in actual seconds
 	private float maxMovespeed = 10;					// If this could be in actual unity units per second somehow, that would be great
 	private float accelerationTime = 0.1f;              // This is in actual seconds
 	private float deccelerationTime = 0.1f;             // This is in actual seconds
@@ -33,6 +35,7 @@ public class CharacterController2D : MonoBehaviour {
 	//Physics variables - State variables
 	float leftSpeed = 0.0f;
 	float rightSpeed = 0.0f;
+	Vector2 previousVelocity;
 
 	//Sprite settings variables
 	private float inputDirection = 1.0f;
@@ -45,6 +48,8 @@ public class CharacterController2D : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D>();
 		boxColl = GetComponent<BoxCollider2D>();
 		scale = GetComponentInChildren<ScaleWithVelocity>();
+		swordSwing = GetComponent<SwordSwing>();
+		audioManager = FindObjectOfType<AudioManager>();
 		SetupMoveAndJumpSpeed();
 	}
 
@@ -61,6 +66,12 @@ public class CharacterController2D : MonoBehaviour {
 			if (Vector2.Angle(contacts[i].normal, Vector2.up) < 5.0f) {
 				onGround = true;
 				rb.velocity = new Vector2(rb.velocity.x, 0);
+
+				//SFX
+				audioManager.PlayWithRandomPitch("Landing");
+
+				//Landing animation
+				scale.LandingAnimation();
 			}
 		}
 	}
@@ -77,15 +88,16 @@ public class CharacterController2D : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 
-		if (inputDirection == -1.0f) {
+		if (inputDirection == -1.0f && !swordSwing.isAttacking) {
 			transform.localRotation = Quaternion.Euler(0, 180, 0);
-		} else {
+		} else if(inputDirection == 1.0f && !swordSwing.isAttacking) {
 			transform.localRotation = Quaternion.Euler(0, 0, 0);
 		}
 
 		Jumping();
 		Gravity();
 		HorizontalMovement();
+		previousVelocity = rb.velocity;
 
 	}
 
@@ -108,6 +120,10 @@ public class CharacterController2D : MonoBehaviour {
 			if (onGround) {
 				rb.velocity = new Vector2(rb.velocity.x, 0);
 				rb.velocity += new Vector2(0, maxJumpVelocity);
+
+				//SFX
+				audioManager.PlayWithRandomPitch("Jump");
+
 			}
 		} else {
 			if (rb.velocity.y > minJumpVelocity) {
