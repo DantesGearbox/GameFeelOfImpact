@@ -184,7 +184,7 @@ Prefab:
     - target: {fileID: 114243656467040196, guid: 2981e14a27385d94397440def30a7fa5,
         type: 2}
       propertyPath: hitForce
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2981e14a27385d94397440def30a7fa5, type: 2}
