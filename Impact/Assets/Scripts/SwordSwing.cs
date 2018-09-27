@@ -17,6 +17,7 @@ public class SwordSwing : MonoBehaviour {
 	public bool isAttacking = false;
 	private CharacterController2D cc;
 	private AudioManager audioManager;
+	private ScreenFreeze sf;
 
 	public SpriteRenderer swordSprite;
 	public Sprite sword1;
@@ -30,6 +31,7 @@ public class SwordSwing : MonoBehaviour {
 	void Start () {
 		cc = GetComponent<CharacterController2D>();
 		audioManager = FindObjectOfType<AudioManager>();
+		sf = GetComponent<ScreenFreeze>();
 	}
 	
 	// Update is called once per frame
@@ -52,6 +54,7 @@ public class SwordSwing : MonoBehaviour {
 	private void OnTriggerEnter2D(Collider2D collision) {
 		
 		if(collision.CompareTag("PunchingBag") && normalAtk){
+			sf.FreezeForHitPower(hitForce);
 			collision.GetComponentInChildren<ScaleWithXAndY>().GotHit(hitForce, transform.position);
 		}
 
