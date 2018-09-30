@@ -186,6 +186,12 @@ Prefab:
       propertyPath: hitForce
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114976506903227072, guid: 2981e14a27385d94397440def30a7fa5,
+        type: 2}
+      propertyPath: ps
+      value: 
+      objectReference: {fileID: 1841234075248592, guid: 85e904634e710bf4a8979c4a3a88bd59,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2981e14a27385d94397440def30a7fa5, type: 2}
   m_IsPrefabAsset: 0

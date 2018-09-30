@@ -16,6 +16,8 @@ public class CharacterController2D : MonoBehaviour {
 	SwordSwing swordSwing;
 	AudioManager audioManager;
 
+	public GameObject ps;
+
 	//Physics variables - We set these
 	private float maxJumpHeight = 3.5f;                 // If this could be in actual unity units somehow, that would be great
 	private float minJumpHeight = 0.5f;                 // If this could be in actual unity units somehow, that would be great
