@@ -68,13 +68,20 @@ public class CharacterController2D : MonoBehaviour {
 			if (Vector2.Angle(contacts[i].normal, Vector2.up) < 5.0f) {
 				onGround = true;
 				rb.velocity = new Vector2(rb.velocity.x, 0);
-
-				//SFX
-				audioManager.PlayWithRandomPitch("Landing");
-
-				//Landing animation
-				scale.LandingAnimation();
 			}
+		}
+
+		//Is only true the first frame that we are one the ground
+		if (onGround) {
+			//SFX
+			audioManager.PlayWithRandomPitch("Landing");
+
+			//VFX
+			GameObject particles = Instantiate(ps, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
+			particles.GetComponent<ParticleSystem>().Play();
+
+			//Landing animation
+			scale.LandingAnimation();
 		}
 	}
 

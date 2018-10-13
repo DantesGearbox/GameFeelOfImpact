@@ -6,6 +6,7 @@ public class ScaleWithXAndY : MonoBehaviour {
 
 	Rigidbody2D rb;
 	AudioManager aud;
+	public GameObject ps;
 
 	float maxVelocity = 10.0f;
 	float deccelerationTime = 0.5f;
@@ -49,6 +50,11 @@ public class ScaleWithXAndY : MonoBehaviour {
 		//SFX
 		float pitch = (1/(hitForce / 40))-0.5f;
 		aud.PlayWithPitch("EnemyHit", pitch);
+
+		//VFX
+		GameObject particles = Instantiate(ps, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
+		ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
+		hitParticles.Play();
 
 		//Camera shake
 		CameraShake.AddTrauma((hitForce)/40);

@@ -224,7 +224,7 @@ MonoBehaviour:
   sword2: {fileID: 21300000, guid: 353e8d06616f2a34593c6b4738363043, type: 3}
   currentSword: 1
   normalAttackHitbox: {fileID: 61620441793818276}
-  hitForce: 10
+  hitForce: 20
 --- !u!114 &114376420766686356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -247,7 +247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e251d7271207e0b49b81a5469eff8613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 1
 --- !u!114 &114976506903227072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -262,6 +261,7 @@ MonoBehaviour:
   jumpKey: 32
   leftKey: 97
   rightKey: 100
+  ps: {fileID: 1724466145453132, guid: 85e904634e710bf4a8979c4a3a88bd59, type: 2}
   onGround: 0
 --- !u!212 &212207371178066454
 SpriteRenderer:
