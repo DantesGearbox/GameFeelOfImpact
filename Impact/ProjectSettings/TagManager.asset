@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NormalAttack
   - PunchingBag
+  - Enemy
   layers:
   - Default
   - TransparentFX
