@@ -15,12 +15,12 @@ public class CameraShake : MonoBehaviour {
 
 	public static void AddTrauma(float addedTrauma) {
 		
-		trauma += Mathf.Clamp01(addedTrauma);
+		trauma += Mathf.Clamp(addedTrauma, 0, 0.70f);
 	}
 
 	void FixedUpdate() {
 		//Camera shake effect
-		trauma = Mathf.Clamp01(trauma);
+		trauma = Mathf.Clamp(trauma, 0, 0.70f);
 		float xOffset = maxOffset * Mathf.Pow(trauma, 2) * Random.Range(-1.0f, 1.0f);
 		float yOffset = maxOffset * Mathf.Pow(trauma, 2) * Random.Range(-1.0f, 1.0f);
 		trauma -= traumaRemoval * Time.deltaTime;

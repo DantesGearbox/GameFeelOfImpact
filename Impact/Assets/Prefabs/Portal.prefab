@@ -51,7 +51,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1408356395931940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.65, y: 0.27, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4719441930586170}
@@ -63,14 +63,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1889989713203736}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.05, y: -2.55, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 12.27, y: -0.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4114738331715624}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!114 &114459942275648838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,6 +95,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyObject: {fileID: 1566568647277020, guid: a02ea37b92386354b87a7b4a4db2e9d5,
     type: 2}
+  toughEnemy: {fileID: 1009141960409592, guid: 529d23040a9c8cb48baf6b247153777d, type: 2}
+  spawn: {fileID: 4719441930586170}
 --- !u!212 &212604908029936482
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -129,7 +131,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: b28f3fd6ae9c83c4d9076ee4f235893f, type: 3}
   m_Color: {r: 0.23620577, g: 0.17475082, b: 0.31132078, a: 1}
   m_FlipX: 0

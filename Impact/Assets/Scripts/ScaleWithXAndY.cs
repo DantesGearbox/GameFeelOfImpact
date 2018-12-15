@@ -7,6 +7,7 @@ public class ScaleWithXAndY : MonoBehaviour {
 	Rigidbody2D rb;
 	AudioManager aud;
 	public GameObject ps;
+	public GameObject slashParticles;
 
 	float maxVelocity = 10.0f;
 	float deccelerationTime = 0.5f;
@@ -20,8 +21,6 @@ public class ScaleWithXAndY : MonoBehaviour {
 		aud = FindObjectOfType<AudioManager>();
 		decceleration = maxVelocity / deccelerationTime;
 	}
-	
-
 
 	private void Update() {
 
@@ -38,6 +37,12 @@ public class ScaleWithXAndY : MonoBehaviour {
 		}
 	}
 
+	public void ResetPunchingBag() {
+		//Move punching bag back to it's spawnpoint
+		transform.parent.transform.position = pbs.position;
+		rb.velocity = Vector2.zero;
+	}
+
 	public void GotHit(float hitForce, Vector3 position) {
 
 		Vector2 hitDir = (transform.position - position).normalized * hitForce * 1.2f;
@@ -45,7 +50,9 @@ public class ScaleWithXAndY : MonoBehaviour {
 
 		Vector2 facingDir = new Vector2(hitDir.x, hitDir.y);
 		float angle = Mathf.Atan2(facingDir.y, facingDir.x) * Mathf.Rad2Deg;
-		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+		Quaternion quat = Quaternion.AngleAxis(angle, Vector3.forward);
+		Quaternion quat2 = Quaternion.AngleAxis(angle + 80, Vector3.forward);
+		transform.rotation = quat;
 
 		//SFX
 		float pitch = (1/(hitForce / 40))-0.5f;
@@ -55,6 +62,16 @@ public class ScaleWithXAndY : MonoBehaviour {
 		GameObject particles = Instantiate(ps, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
 		ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
 		hitParticles.Play();
+
+		//VFX
+		GameObject particle = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat2);
+		ParticleSystem hitParticle = particle.GetComponent<ParticleSystem>();
+		hitParticle.Play();
+
+		//VFX
+		GameObject slashPart = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat);
+		ParticleSystem hitPart = slashPart.GetComponent<ParticleSystem>();
+		hitPart.Play();
 
 		//Camera shake
 		CameraShake.AddTrauma((hitForce)/40);

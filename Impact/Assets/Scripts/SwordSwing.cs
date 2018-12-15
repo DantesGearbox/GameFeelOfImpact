@@ -58,12 +58,23 @@ public class SwordSwing : MonoBehaviour {
 			collision.GetComponentInChildren<ScaleWithXAndY>().GotHit(hitForce, transform.position);
 		}
 
+		if (collision.CompareTag("Enemy") && normalAtk) {
+			sf.FreezeForHitPower(hitForce);
+			collision.GetComponentInChildren<EnemyBehavior>().GotHit(hitForce, transform.position);
+		}
+
+		if (collision.CompareTag("ToughEnemy") && normalAtk) {
+			sf.FreezeForHitPower(hitForce*2);
+			collision.GetComponentInChildren<EnemyBehavior>().GotHit(hitForce, transform.position);
+
+			cc.blockStun = true;
+		}
 	}
 
 	void NormalAttack() {
 
 		//First, check the general "isAttacking" to see if any atk is going
-		if (!isAttacking && !attackCooldown) {
+		if (!isAttacking && !attackCooldown && !cc.blockStun) {
 
 			//Check if we should do a normal atk
 			if (Input.GetKey(normalAttackKey)) {

@@ -10,7 +10,7 @@ public class CharacterController2D : MonoBehaviour {
 	public KeyCode rightKey;
 
 	//Unity components
-	Rigidbody2D rb;
+	[HideInInspector] public Rigidbody2D rb;
 	BoxCollider2D boxColl;
 	ScaleWithVelocity scale;
 	SwordSwing swordSwing;
@@ -40,7 +40,11 @@ public class CharacterController2D : MonoBehaviour {
 	Vector2 previousVelocity;
 
 	//Sprite settings variables
-	private float inputDirection = 1.0f;
+	[HideInInspector] public float inputDirection = 1.0f;
+
+	public bool blockStun;
+	private float blockTime = 0.3f;
+	private float blockTimer = 0.0f;
 
 	//Collision variables
 	public bool onGround = false;
@@ -103,11 +107,25 @@ public class CharacterController2D : MonoBehaviour {
 			transform.localRotation = Quaternion.Euler(0, 0, 0);
 		}
 
-		Jumping();
+		if (!blockStun) {
+			Jumping();
+		}
 		Gravity();
-		HorizontalMovement();
+		if (!blockStun) {
+			HorizontalMovement();
+		}
 		previousVelocity = rb.velocity;
 
+		if (blockStun) {
+			rb.velocity = new Vector2(0, rb.velocity.y);
+
+			blockTimer += Time.deltaTime;
+			if(blockTimer > blockTime) {
+				blockTimer = 0.0f;
+				blockStun = false;
+			}
+			
+		}
 	}
 
 	public float GetInputDirection() {
@@ -151,7 +169,6 @@ public class CharacterController2D : MonoBehaviour {
 			rb.velocity = new Vector2(rb.velocity.x, temp);
 
 		}
-		
 	}
 
 	void HorizontalMovement(){
