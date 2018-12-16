@@ -27,11 +27,14 @@ public class SwordSwing : MonoBehaviour {
 	public BoxCollider2D normalAttackHitbox;
 	public float hitForce = 10.0f;
 
+	private GameFeelManager gfm;
+
 	// Use this for initialization
 	void Start () {
 		cc = GetComponent<CharacterController2D>();
 		audioManager = FindObjectOfType<AudioManager>();
 		sf = GetComponent<ScreenFreeze>();
+		gfm = FindObjectOfType<GameFeelManager>();
 	}
 	
 	// Update is called once per frame
@@ -67,7 +70,9 @@ public class SwordSwing : MonoBehaviour {
 			sf.FreezeForHitPower(hitForce*2);
 			collision.GetComponentInChildren<EnemyBehavior>().GotHit(hitForce, transform.position);
 
-			cc.blockStun = true;
+			if (!gfm.disableBlockStun) {
+				cc.blockStun = true;
+			}
 		}
 	}
 
@@ -84,8 +89,10 @@ public class SwordSwing : MonoBehaviour {
 				swordSprite.enabled = true;
 				normalAttackHitbox.enabled = true;
 
-				//SFX
-				audioManager.PlayWithRandomPitch("SwordHit", 1.5f);
+				if (!gfm.disableSoundEffects) {
+					//SFX
+					audioManager.PlayWithRandomPitch("SwordHit", 1.5f);
+				}
 			}
 		}
 

@@ -49,6 +49,8 @@ public class CharacterController2D : MonoBehaviour {
 	//Collision variables
 	public bool onGround = false;
 
+	private GameFeelManager gfm;
+
 	// Use this for initialization
 	void Start() {
 		rb = GetComponent<Rigidbody2D>();
@@ -56,7 +58,13 @@ public class CharacterController2D : MonoBehaviour {
 		scale = GetComponentInChildren<ScaleWithVelocity>();
 		swordSwing = GetComponent<SwordSwing>();
 		audioManager = FindObjectOfType<AudioManager>();
+		gfm = FindObjectOfType<GameFeelManager>();
 		SetupMoveAndJumpSpeed();
+	}
+
+	public void ResetPlayer() {
+		rb.velocity = Vector2.zero;
+		transform.position = Vector3.zero;
 	}
 
 	private void CheckGroundCollision(){
@@ -77,15 +85,22 @@ public class CharacterController2D : MonoBehaviour {
 
 		//Is only true the first frame that we are one the ground
 		if (onGround) {
-			//SFX
-			audioManager.PlayWithRandomPitch("Landing");
 
-			//VFX
-			GameObject particles = Instantiate(ps, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
-			particles.GetComponent<ParticleSystem>().Play();
+			if (!gfm.disableSoundEffects) {
+				//SFX
+				audioManager.PlayWithRandomPitch("Landing");
+			}
 
-			//Landing animation
-			scale.LandingAnimation();
+			if (!gfm.disableParticles) {
+				//VFX
+				GameObject particles = Instantiate(ps, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
+				particles.GetComponent<ParticleSystem>().Play();
+			}
+
+			if (gfm.disableAnimations) {
+				//Landing animation
+				scale.LandingAnimation();
+			}
 		}
 	}
 
@@ -148,8 +163,10 @@ public class CharacterController2D : MonoBehaviour {
 				rb.velocity = new Vector2(rb.velocity.x, 0);
 				rb.velocity += new Vector2(0, maxJumpVelocity);
 
-				//SFX
-				audioManager.PlayWithRandomPitch("Jump");
+				if (!gfm.disableSoundEffects) {
+					//SFX
+					audioManager.PlayWithRandomPitch("Jump");
+				}
 
 			}
 		} else {

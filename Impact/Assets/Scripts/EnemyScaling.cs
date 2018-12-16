@@ -19,9 +19,12 @@ public class EnemyScaling : MonoBehaviour {
 	float timer = 0;
 	float cosTime = 0;
 
+	private GameFeelManager gfm;
+
 	private void Start() {
 		rb = GetComponentInParent<Rigidbody2D>();
 		eb = GetComponentInParent<EnemyBehavior>();
+		gfm = FindObjectOfType<GameFeelManager>();
 	}
 
 	void FixedUpdate() {
@@ -51,7 +54,11 @@ public class EnemyScaling : MonoBehaviour {
 			timer += Time.deltaTime;
 			cosTime = Mathf.Cos(timer);
 
-			transform.localScale = new Vector3(defScaleX, defScaleY + Mathf.Cos(cosTime), 0);
+			transform.localScale = new Vector2(defScaleX, defScaleY + Mathf.Cos(cosTime));
+		}
+
+		if (gfm.disableAnimations) {
+			transform.localScale = new Vector2(1.3f, 1);
 		}
 	}
 

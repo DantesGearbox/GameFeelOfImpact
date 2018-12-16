@@ -28,11 +28,14 @@ public class EnemyBehavior : MonoBehaviour {
 	private float blockTime = 0.3f;
 	private float blockTimer = 0.0f;
 
+	private GameFeelManager gfm;
+
 	private void Start() {
 		rb = GetComponent<Rigidbody2D>();
 		boxColl = GetComponent<BoxCollider2D>();
 		scale = GetComponentInChildren<EnemyScaling>();
 		audioManager = FindObjectOfType<AudioManager>();
+		gfm = FindObjectOfType<GameFeelManager>();
 	}
 
 	public void GotHit(float hitForce, Vector3 position) {
@@ -45,35 +48,44 @@ public class EnemyBehavior : MonoBehaviour {
 			Quaternion quat = Quaternion.AngleAxis(angle, Vector3.forward);
 			Quaternion quat2 = Quaternion.AngleAxis(angle + 80, Vector3.forward);
 
-			blockStun = true;
-			rb.velocity = new Vector2(0, rb.velocity.y);
+			if (!gfm.disableBlockStun) {
+				//Blockstun
+				blockStun = true;
+				rb.velocity = new Vector2(0, rb.velocity.y);
+			}
 
-			//SFX
-			audioManager.Play("ToughEnemyHit");
+			if (!gfm.disableSoundEffects) {
+				//SFX
+				audioManager.Play("ToughEnemyHit");
+			}
 
-			//VFX
-			GameObject particles = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat);
-			ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
-			hitParticles.Play();
+			if (!gfm.disableParticles) {
+				//VFX
+				GameObject particles = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat);
+				ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
+				hitParticles.Play();
 
-			//VFX
-			GameObject particle = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat2);
-			ParticleSystem hitParticle = particle.GetComponent<ParticleSystem>();
-			//hitParticle.Play();
+				//VFX
+				GameObject particle = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat2);
+				ParticleSystem hitParticle = particle.GetComponent<ParticleSystem>();
+				//hitParticle.Play();
 
-			//VFX
-			GameObject particles3 = Instantiate(gotHitParticles3, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
-			ParticleSystem hitParticles3 = particles3.GetComponent<ParticleSystem>();
-			hitParticles3.Play();
+				//VFX
+				GameObject particles3 = Instantiate(gotHitParticles3, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
+				ParticleSystem hitParticles3 = particles3.GetComponent<ParticleSystem>();
+				hitParticles3.Play();
 
-			//VFX
-			GameObject particles2 = Instantiate(gotHitParticles2, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
-			particles2.transform.parent = this.transform;
-			ParticleSystem hitParticles2 = particles2.GetComponent<ParticleSystem>();
-			hitParticles2.Play();
+				//VFX
+				GameObject particles2 = Instantiate(gotHitParticles2, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
+				particles2.transform.parent = this.transform;
+				ParticleSystem hitParticles2 = particles2.GetComponent<ParticleSystem>();
+				hitParticles2.Play();
+			}
 
-			//Camera shake
-			CameraShake.AddTrauma((hitForce) / 40);
+			if (!gfm.disableScreenShake) {
+				//Camera shake
+				CameraShake.AddTrauma((hitForce) / 40);
+			}
 		}
 
 		if (!toughEnemy){
@@ -84,34 +96,45 @@ public class EnemyBehavior : MonoBehaviour {
 			Quaternion quat = Quaternion.AngleAxis(angle, Vector3.forward);
 			Quaternion quat2 = Quaternion.AngleAxis(angle + 80, Vector3.forward);
 
-			rb.velocity += new Vector2(10, 10);
+			if(!gfm.disableBlockStun) {
+				rb.velocity += new Vector2(10, 10);
+			}
 
-			//SFX
-			audioManager.Play("EnemySwordHit");
 
-			//VFX
-			GameObject particles = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat);
-			ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
-			hitParticles.Play();
+			if (!gfm.disableSoundEffects) {
+				//SFX
+				audioManager.Play("EnemySwordHit");
+			}
 
-			//VFX
-			GameObject particle = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat2);
-			ParticleSystem hitParticle = particle.GetComponent<ParticleSystem>();
-			hitParticle.Play();
 
-			//VFX
-			GameObject particles3 = Instantiate(gotHitParticles3, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
-			ParticleSystem hitParticles3 = particles3.GetComponent<ParticleSystem>();
-			hitParticles3.Play();
+			if (!gfm.disableParticles) {
+				//VFX
+				GameObject particles = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat);
+				ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
+				hitParticles.Play();
 
-			//VFX
-			GameObject particles2 = Instantiate(gotHitParticles2, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
-			particles2.transform.parent = this.transform;
-			ParticleSystem hitParticles2 = particles2.GetComponent<ParticleSystem>();
-			hitParticles2.Play();
+				//VFX
+				GameObject particle = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat2);
+				ParticleSystem hitParticle = particle.GetComponent<ParticleSystem>();
+				hitParticle.Play();
 
-			//Camera shake
-			CameraShake.AddTrauma((hitForce) / 40);
+				//VFX
+				GameObject particles3 = Instantiate(gotHitParticles3, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
+				ParticleSystem hitParticles3 = particles3.GetComponent<ParticleSystem>();
+				hitParticles3.Play();
+
+				//VFX
+				GameObject particles2 = Instantiate(gotHitParticles2, transform.position + new Vector3(0, 0.0f, 0), Quaternion.identity);
+				particles2.transform.parent = this.transform;
+				ParticleSystem hitParticles2 = particles2.GetComponent<ParticleSystem>();
+				hitParticles2.Play();
+			}
+
+
+			if (!gfm.disableScreenShake) {
+				//Camera shake
+				CameraShake.AddTrauma((hitForce) / 40);
+			}
 		}
 	}
 
@@ -133,16 +156,24 @@ public class EnemyBehavior : MonoBehaviour {
 
 		//Is only true the first frame that we are one the ground
 		if (onGround) {
-			//SFX
-			audioManager.PlayWithRandomPitch("Landing");
 
-			//VFX
-			GameObject particles = Instantiate(landingParticles, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
-			particles.GetComponent<ParticleSystem>().Play();
+			if (!gfm.disableSoundEffects) {
+				//SFX
+				audioManager.PlayWithRandomPitch("Landing");
+			}
+
+			if (!gfm.disableParticles) {
+				//VFX
+				GameObject particles = Instantiate(landingParticles, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
+				particles.GetComponent<ParticleSystem>().Play();
+			}
 
 			if (!toughEnemy) {
-				//Landing animation
-				scale.LandingAnimation();
+
+				if (!gfm.disableAnimations) {
+					//Landing animation
+					scale.LandingAnimation();
+				}
 			}
 		}
 	}

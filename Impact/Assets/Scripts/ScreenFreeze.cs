@@ -9,10 +9,20 @@ public class ScreenFreeze : MonoBehaviour {
 
 	float pendingFreezeDuration = 0.0f;
 
+	private GameFeelManager gfm;
+
+	private void Awake() {
+		gfm = FindObjectOfType<GameFeelManager>();
+	}
+
 	// Update is called once per frame
 	void Update() {
 		if (pendingFreezeDuration > 0 && !isFrozen) {
-			StartCoroutine(DoFreeze());
+			if (!gfm.disableScreenFreeze) {
+				StartCoroutine(DoFreeze());
+			} else {
+				pendingFreezeDuration = 0;
+			}
 		}
 	}
 

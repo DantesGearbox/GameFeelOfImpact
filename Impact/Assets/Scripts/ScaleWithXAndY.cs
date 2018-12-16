@@ -15,11 +15,14 @@ public class ScaleWithXAndY : MonoBehaviour {
 
 	public Transform pbs;
 
+	private GameFeelManager gfm;
+
 	// Use this for initialization
 	void Start() {
 		rb = GetComponentInParent<Rigidbody2D>();
 		aud = FindObjectOfType<AudioManager>();
 		decceleration = maxVelocity / deccelerationTime;
+		gfm = FindObjectOfType<GameFeelManager>();
 	}
 
 	private void Update() {
@@ -45,36 +48,48 @@ public class ScaleWithXAndY : MonoBehaviour {
 
 	public void GotHit(float hitForce, Vector3 position) {
 
-		Vector2 hitDir = (transform.position - position).normalized * hitForce * 1.2f;
-		rb.velocity = hitDir;
+		Vector2 hitDir = (transform.position - position).normalized * hitForce * 1.0f;
 
 		Vector2 facingDir = new Vector2(hitDir.x, hitDir.y);
 		float angle = Mathf.Atan2(facingDir.y, facingDir.x) * Mathf.Rad2Deg;
 		Quaternion quat = Quaternion.AngleAxis(angle, Vector3.forward);
 		Quaternion quat2 = Quaternion.AngleAxis(angle + 80, Vector3.forward);
-		transform.rotation = quat;
 
-		//SFX
-		float pitch = (1/(hitForce / 40))-0.5f;
-		aud.PlayWithPitch("EnemyHit", pitch);
+		if (!gfm.disableBlockStun) {
+			rb.velocity = hitDir;
+		}
 
-		//VFX
-		GameObject particles = Instantiate(ps, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
-		ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
-		hitParticles.Play();
+		if (!gfm.disableAnimations) {
+			transform.rotation = quat;
+		}
 
-		//VFX
-		GameObject particle = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat2);
-		ParticleSystem hitParticle = particle.GetComponent<ParticleSystem>();
-		hitParticle.Play();
+		if (!gfm.disableSoundEffects) {
+			//SFX
+			float pitch = (1 / (hitForce / 40)) - 0.5f;
+			aud.PlayWithPitch("EnemyHit", pitch);
+		}
 
-		//VFX
-		GameObject slashPart = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat);
-		ParticleSystem hitPart = slashPart.GetComponent<ParticleSystem>();
-		hitPart.Play();
+		if (!gfm.disableParticles) {
+			//VFX
+			GameObject particles = Instantiate(ps, transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity);
+			ParticleSystem hitParticles = particles.GetComponent<ParticleSystem>();
+			hitParticles.Play();
 
-		//Camera shake
-		CameraShake.AddTrauma((hitForce)/40);
+			//VFX
+			GameObject particle = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat2);
+			ParticleSystem hitParticle = particle.GetComponent<ParticleSystem>();
+			hitParticle.Play();
+
+			//VFX
+			GameObject slashPart = Instantiate(slashParticles, transform.position + new Vector3(0, 0.5f, 0), quat);
+			ParticleSystem hitPart = slashPart.GetComponent<ParticleSystem>();
+			hitPart.Play();
+		}
+
+		if (!gfm.disableScreenShake) {
+			//Camera shake
+			CameraShake.AddTrauma((hitForce) / 40);
+		}
 	}
 
 	void FixedUpdate() {
@@ -92,5 +107,9 @@ public class ScaleWithXAndY : MonoBehaviour {
 		float xLerp = Mathf.Lerp(slowScaleX, fastScaleX, ySpeedRatio);
 		float yLerp = Mathf.Lerp(slowScaleY, fastScaleY, ySpeedRatio);
 		transform.localScale = new Vector2(xLerp, yLerp);
+
+		if (gfm.disableAnimations) {
+			transform.localScale = new Vector2(1, 1);
+		}
 	}
 }

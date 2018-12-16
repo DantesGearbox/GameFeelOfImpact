@@ -25,7 +25,10 @@ public class ScaleWithVelocity : MonoBehaviour {
 
 	private bool walkingScale = false;
 
+	private GameFeelManager gfm;
+
 	private void Start() {
+		gfm = FindObjectOfType<GameFeelManager>();
 		rb = GetComponentInParent<Rigidbody2D>();
 		cc = GetComponentInParent<CharacterController2D>();
 		ss = GetComponentInParent<SwordSwing>();
@@ -91,6 +94,10 @@ public class ScaleWithVelocity : MonoBehaviour {
 		//Vector2 dir = new Vector2(rb.velocity.x, rb.velocity.y);
 		//float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 		//transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+		if (gfm.disableAnimations) {
+			transform.localScale = new Vector2(1, 1);
+		}
 	}
 
 	public void LandingAnimation() {
