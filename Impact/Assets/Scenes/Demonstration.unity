@@ -2898,7 +2898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: Jump
-    clip: {fileID: 8300000, guid: 35370cb39f7fee1479d8476366111d5a, type: 3}
+    clip: {fileID: 8300000, guid: f8d386c1d1b3ce14981cec251bd2f72d, type: 3}
     volume: 0.2
     pitch: 1
     loop: 0
